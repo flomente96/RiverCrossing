@@ -1,0 +1,2 @@
+# RiverCrossing
+Automata implementation
