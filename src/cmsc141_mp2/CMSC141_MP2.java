@@ -20,14 +20,11 @@ public class CMSC141_MP2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
         String state = "FLCR_"; //Initial state
         Automaton automaton = new Automaton();
         
         String fileName = "mp2.in";
         String[] textData = open_file(fileName);    //Holds the text data the file contains.
-//        System.out.println("Current state: " + state);
-        int ctr = 0;
         for (String line : textData){   //Iterates through the lines in the file
             char [] array = line.toCharArray();
             state = "FLCR_";
@@ -35,17 +32,16 @@ public class CMSC141_MP2 {
             
             for(char c : array){    //Iterates though all the characters the line has then executes each move
                 state = automaton.cross_with(String.valueOf(c));
-                automaton.setCurrentState(state);
-                System.out.println("Input: " + c + " Current state: " + state);
-                if(state_validate(state) == false){ //If move is invalid
+                
+                if(state_validate(state) == false || automaton.getCurrentState().equals(automaton.getNextState())){ //If move is invalid
                     System.out.println("NG");
                     break;
                 }
+                automaton.setCurrentState(state);
             }
-            if(state_validate(state) && state.startsWith("_")){ //If move is valid
-                System.out.println(ctr + ": OK");
-                ctr++;
-            }
+            if(state_validate(state) && state.startsWith("_")) //If move is valid
+                System.out.println("OK");
+            
         }
     }
     

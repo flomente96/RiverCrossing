@@ -16,6 +16,7 @@ public class Automaton {
     
     Automaton(){
         this.currentState = "";
+        this.nextState = "";
         this.input = "";
     }
     
@@ -25,6 +26,9 @@ public class Automaton {
     }
     
     public String cross_with(String input){
+        /*
+        *River crossing simulation using string manipulation.
+        */
         String[] str = this.currentState.split("_");
         String west = str[0];
         String east;
@@ -36,12 +40,12 @@ public class Automaton {
         StringBuilder sb = new StringBuilder();
         String state;
         String[] temp;
-        if(east.contains(input)){
+        if(east.contains(input) && east.contains("F")){
             state = str_manipulate(east, west, input);
             temp = state.split(":");
             sb.append(temp[1]).append("_").append(temp[0]);
         }
-        else if(west.contains(input)){
+        else if(west.contains(input) && west.contains("F")){
             state = str_manipulate(west, east, input);
             temp = state.split(":");
             sb.append(temp[0]).append("_").append(temp[1]);
@@ -58,12 +62,19 @@ public class Automaton {
                 sb.append(temp[0]).append("_").append(temp[1]);
             }
         }
+        else{
+            this.nextState = this.currentState;
+            return this.nextState;
+        }
         this.nextState = sb.toString();
         
         return this.nextState;
     }
     
     public String str_manipulate(String from, String to, String input){
+        /*
+        *String manipulation of the river crossing simulation method.
+        */
         char[] rb = from.toCharArray();
         char[] c = input.toCharArray();
         StringBuilder sb = new StringBuilder();
